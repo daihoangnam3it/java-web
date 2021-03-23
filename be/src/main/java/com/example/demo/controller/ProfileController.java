@@ -29,13 +29,21 @@ public class ProfileController {
 	@Autowired
 	public ProfileRepository profileRepository;
 	
-//	public void createProfile(@RequestBody Profile profile) {
-//		Profile insertedProfile = profileRepository.insert(profile);
-//	}
+	@GetMapping(value = "/profiles")
+	public List<Profile> getAllProfile(){
+		return profileRepository.findAll();
+	}
 	
 	@GetMapping(value = "/profile/{userId}")
-	public String getProfile(@PathVariable("userId") String userId) {
-		return profileRepository.findById(userId).get().getUserId();
+	public Optional<Profile> getProfile(@PathVariable("userId") String userId) {
+		return profileRepository.findById(userId);
+	}
+	
+	@PostMapping(value = "/profile/create")
+	public String createProfile(@RequestBody Profile profile) {
+		Profile insertedProfile = profileRepository.insert(profile);
+	
+		return "OK";
 	}
 //	@PutMapping(value = "/user/update")
 //	public String updateUser(@RequestBody User user) {
@@ -43,10 +51,10 @@ public class ProfileController {
 //		return "OK";
 //	}
 //	
-//	@DeleteMapping(value = "/user/delete/{id}")
-//	public void deleteUser(@PathVariable("id") String id) {
-//		userRepository.deleteById(id);
-//	}
+	@DeleteMapping(value = "/profile/delete/{userId}")
+	public void deleteProfile(@PathVariable("userId") String userId) {
+		profileRepository.deleteById(userId);
+	}
 //	
 //	@GetMapping(value = "/user/get-detail")
 //	public Optional<User> getDetail(String id) {
