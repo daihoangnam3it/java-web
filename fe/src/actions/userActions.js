@@ -99,7 +99,7 @@ export const register = (name, email, password) => async (dispatch) => {
   }
 };
 
-export const detailUser=() => async (dispatch,getState)=>{
+export const detailUser=(id) => async (dispatch,getState)=>{
   try {
     dispatch({type:USER_DETAILS_REQUEST});
     const {userLogin:{userInfo}}=getState()
@@ -108,7 +108,7 @@ export const detailUser=() => async (dispatch,getState)=>{
         'Authorization':userInfo.token
       }
     }
-    const {data} = await axios.get(`/api/users/get-info`,config)
+    const {data} = await axios.get(`/profile/${id}`)
     dispatch({
       type:USER_DETAILS_SUCCESS,
       payload:data
@@ -148,7 +148,7 @@ export const getListUser=()=>async (dispatch,getState)=>{
         'Authorization':userInfo.token
       }
     }
-    const {data}= await axios.get( `/api/users/all-users`,config)
+    const {data}= await axios.get( `/users`)
     dispatch({type:USER_LIST_SUCCESS,payload:data})
   } catch (error) {
     dispatch({type:USER_LIST_FAIL,payload:error.response && error.response.data.msg})
