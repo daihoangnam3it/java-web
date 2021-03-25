@@ -6,10 +6,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Profile")
 public class Profile {
 
+	@Id
+	private String userId;
 	private String address="";
 	private String district="";
 	private String city="";
-	private String userId;
+
 	
 	public Profile() {
 		super();
@@ -51,8 +53,5 @@ public class Profile {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 
 }

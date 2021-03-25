@@ -55,6 +55,7 @@ public class UserController {
 	
 		return "OK";
 	}
+	
 
 	@PutMapping(value = "/user/update")
 	public String updateUser(@RequestBody User user) {
@@ -67,7 +68,7 @@ public class UserController {
 		userRepository.deleteById(id);
 	}
 	
-	@GetMapping(value = "/user/get-detail")
+	@GetMapping(value = "/user/get-detail/{id}")
 	public Optional<User> getDetail(String id) {
 		return userRepository.findById(id);
 	}

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Product;
 import com.example.demo.model.User;
 import com.example.demo.repository.ProductRepository;
+import com.example.demo.repository.UserRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
