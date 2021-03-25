@@ -53,12 +53,12 @@ const UserListScreen = ({history}) => {
                   {user.isAdmin?<AiFillCheckCircle/>:<AiOutlineCloseCircle/>}
                 </td>
                 <td>
-                  <LinkContainer to={`/user/${user._id}/edit`}>
+                  <LinkContainer to={`/user/${user.id}/edit`}>
                     <Button variant='light' className='btn-sm'>
                         <AiFillEdit/>
                     </Button>
                   </LinkContainer>
-                  <Button variant='danger' className='btn-sm' onClick={()=>handleDelete(user._id)}>
+                  <Button variant='danger' className='btn-sm' onClick={()=>handleDelete(user.id)}>
                         <AiOutlineDelete/>
                     </Button>
                 </td>

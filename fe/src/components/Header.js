@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import {Route} from 'react-router-dom'
@@ -6,7 +6,7 @@ import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../actions/userActions';
 import SearchBox from './SearchBox'
-const Header = () => {
+const Header = ({history}) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -14,6 +14,7 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
+ 
   return (
     <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
       <LinkContainer to='/'>
