@@ -45,20 +45,20 @@ const UserListScreen = ({history}) => {
           </thead>
           <tbody>
             {users && users.map(user=>(
-              <tr key={user._id}>
-                <td>{user._id}</td>
+              <tr key={user.id}>
+                <td>{user.id}</td>
                 <td>{user.name}</td>
                 <td><a href={`mailto:${user.email}`}>{user.email}</a></td>
                 <td>
                   {user.isAdmin?<AiFillCheckCircle/>:<AiOutlineCloseCircle/>}
                 </td>
                 <td>
-                  <LinkContainer to={`/user/${user._id}/edit`}>
+                  <LinkContainer to={`/user/${user.id}/edit`}>
                     <Button variant='light' className='btn-sm'>
                         <AiFillEdit/>
                     </Button>
                   </LinkContainer>
-                  <Button variant='danger' className='btn-sm' onClick={()=>handleDelete(user._id)}>
+                  <Button variant='danger' className='btn-sm' onClick={()=>handleDelete(user.id)}>
                         <AiOutlineDelete/>
                     </Button>
                 </td>

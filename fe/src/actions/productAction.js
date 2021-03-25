@@ -49,7 +49,7 @@ export const deleteProduct = (id) => async (dispatch,getState) => {
         'Authorization':userInfo.token
       }
     }
-    await axios.delete(`/api/products/${id}/delete`,config);
+    await axios.delete(`https://javawebdoan.herokuapp.com/product/delete/${id}`);
     dispatch({
       type: PRODUCT_DELETE_SUCCESS,
     });

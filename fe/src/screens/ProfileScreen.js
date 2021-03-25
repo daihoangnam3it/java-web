@@ -44,8 +44,8 @@ const ProfileScreen = ({ history }) => {
       history.push('/login');
     }
     if (!user || !user.name) {
-      dispatch(detailUser());
-      dispatch(getListOrder());
+      dispatch(detailUser(userInfo.id));
+      dispatch(getListOrder(userInfo.id));
     } else {
       setName(user.name);
       setEmail(user.email);
@@ -145,7 +145,7 @@ const ProfileScreen = ({ history }) => {
       </Col>
       <Col md={9}>
         <h1>Danh sách đơn hàng</h1>
-        {loadingOrder?<Loader/>:errorOrder?<Message variant="danger">{errorOrder}</Message>:(
+        {/* {loadingOrder?<Loader/>:errorOrder?<Message variant="danger">{errorOrder}</Message>:(
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
@@ -179,7 +179,7 @@ const ProfileScreen = ({ history }) => {
               ))}
             </tbody>
           </Table>
-        )}
+        )} */}
       </Col>
     </Row>
   );

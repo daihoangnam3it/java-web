@@ -13,6 +13,8 @@ const UserEditScreen = ({ match, history }) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   const userDetails = useSelector((state) => state.userDetails);
   const userUpdateWAdmin=useSelector(state=>state.userUpdateWithAdmin)
   const {loading:loadingUpdate,success:successUpdate,error:errorUpdate}=userUpdateWAdmin
@@ -22,7 +24,7 @@ const UserEditScreen = ({ match, history }) => {
       dispatch({type:USER_UPDATE_RESET})
       history.push("/users")
     }
-    if(!user.name || user._id !== userId){
+    if(!user.name || user.id !== userId){
       dispatch(getUserDetails(userId))
     }else{
       setName(user.name);
@@ -32,7 +34,7 @@ const UserEditScreen = ({ match, history }) => {
   }, [history,user]);
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateUserWithAdmin({_id:userId,name,email,isAdmin}))
+    dispatch(updateUserWithAdmin({idCurrent:userInfo.id,id:userId,name,email,isAdmin,address:user.address,district:user.district,city:user.city}))
   };
 
   return (

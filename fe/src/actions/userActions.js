@@ -42,7 +42,13 @@ export const login = (email, password) => async (dispatch) => {
     //   config,
     // );
     const { data } = await axios.post(`https://javawebdoan.herokuapp.com/user/login`,{ email, password });
-    console.log(data);
+    if(!data.id){
+     return  dispatch({
+        type: USER_LOGIN_FAIL,
+        // payload:error.response && error.response.data.msg
+        payload:"Sai mật khẩu hoặc tài khoản",
+      });
+    }
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
@@ -85,10 +91,10 @@ export const register = (name, email, password) => async (dispatch) => {
       password,
     });
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: data,
-    });
+    // dispatch({
+    //   type: USER_LOGIN_SUCCESS,
+    //   payload: data,
+    // });
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
@@ -99,19 +105,22 @@ export const register = (name, email, password) => async (dispatch) => {
   }
 };
 
-export const detailUser=() => async (dispatch,getState)=>{
+export const detailUser=(id) => async (dispatch,getState)=>{
   try {
     dispatch({type:USER_DETAILS_REQUEST});
     const {userLogin:{userInfo}}=getState()
-    const config={
-      headers:{
-        'Authorization':userInfo.token
-      }
+    const { data } = await axios.get(`/users/`)
+    const userDetail=data.filter(el=>el.id===id);
+    console.log(userDetail);
+    const profile=await axios.get(`/profile/${id}`)
+    // console.log(data);
+    const dataUser={
+      ...userDetail[0],
+      ...profile.data
     }
-    const {data} = await axios.get(`/api/users/get-info`,config)
     dispatch({
       type:USER_DETAILS_SUCCESS,
-      payload:data
+      payload:dataUser
     })
   } catch (error) {
     dispatch({
@@ -148,7 +157,7 @@ export const getListUser=()=>async (dispatch,getState)=>{
         'Authorization':userInfo.token
       }
     }
-    const {data}= await axios.get( `/api/users/all-users`,config)
+    const {data}= await axios.get( `/users`)
     dispatch({type:USER_LIST_SUCCESS,payload:data})
   } catch (error) {
     dispatch({type:USER_LIST_FAIL,payload:error.response && error.response.data.msg})
@@ -164,7 +173,7 @@ export const deleteUser=(id) => async (dispatch,getState)=>{
         'Authorization':userInfo.token
       }
     }
-    const {data} = await axios.delete(`/api/users/del/${id}`,config)
+    const {data} = await axios.delete(`https://javawebdoan.herokuapp.com/user/delete/${id}`,config)
     dispatch({
       type:USER_DELETE_SUCCESS,
       
@@ -187,16 +196,24 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState()
 
-    const config = {
-      headers: {
-        'Authorization':userInfo.token
-      },
+    // const config = {
+    //   headers: {
+    //     'Authorization':userInfo.token
+    //   },
+    // }
+    
+    const { data } = await axios.get(`/users/`)
+    const userDetail=data.filter(el=>el.id===id);
+    console.log(userDetail);
+    const profile=await axios.get(`/profile/${id}`)
+    // console.log(data);
+    const dataUser={
+      ...userDetail[0],
+      ...profile.data
     }
-
-    const { data } = await axios.get(`/api/users/${id}/edit`, config)
     dispatch({
       type: USER_DETAILS_SUCCESS,
-      payload: data,
+      payload: dataUser,
     })
   } catch (error) {
     dispatch({
@@ -211,17 +228,13 @@ export const updateUserWithAdmin=(user)=>async (dispatch,getState)=>{
   try {
     dispatch({type:USER_UPDATE_REQUEST});
     const {userLogin:{userInfo}}=getState()
-    const config={
-      headers:{
-        'Authorization':userInfo.token
-      }
-    }
-    const {data}= await axios.put( `/api/users/${user._id}/edit`,user,config)
-    dispatch({type:USER_UPDATE_SUCCESS,payload:data})
-    dispatch({
-      type:USER_DETAILS_SUCCESS,
-      payload:data
-    })
+    console.log(user);
+    const {data}= await axios.put( `/user/update/${user.id}`,user)
+    // dispatch({type:USER_UPDATE_SUCCESS,payload:data})
+    // dispatch({
+    //   type:USER_DETAILS_SUCCESS,
+    //   payload:data
+    // })
   } catch (error) {
     dispatch({type:USER_LIST_FAIL,payload:error.response && error.response.data.msg})
   }

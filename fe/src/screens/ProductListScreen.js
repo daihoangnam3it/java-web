@@ -34,7 +34,7 @@ const ProductListScreen = ({history,match}) => {
       dispatch({type:PRODUCT_DELETE_RESET})
     }
     if(successCreate){
-      history.push(`/product/${createdProduct._id}/edit`)
+      history.push(`/product/${createdProduct.id}/edit`)
     }
     if(!userInfo){
       // window.location.href('/')
@@ -68,8 +68,8 @@ const ProductListScreen = ({history,match}) => {
           </thead>
           <tbody>
             {products && products.map(product=>(
-              <tr key={product._id}>
-                <td>{product._id}</td>
+              <tr key={product.id}>
+                <td>{product.id}</td>
                 <td>{product.name}</td>
                 <td>{product.price}</td>
                 <td>
@@ -79,12 +79,12 @@ const ProductListScreen = ({history,match}) => {
                   {product.brand}
                 </td>
                 <td>
-                  <LinkContainer to={`/product/${product._id}/edit`}>
+                  <LinkContainer to={`/product/${product.id}/edit`}>
                     <Button variant='light' className='btn-sm'>
                         <AiFillEdit/>
                     </Button>
                   </LinkContainer>
-                  <Button variant='danger' className='btn-sm' onClick={()=>handleDelete(product._id)}>
+                  <Button variant='danger' className='btn-sm' onClick={()=>handleDelete(product.id)}>
                         <AiOutlineDelete/>
                     </Button>
                 </td>
