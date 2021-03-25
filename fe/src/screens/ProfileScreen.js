@@ -159,8 +159,8 @@ const ProfileScreen = ({ history }) => {
             </thead>
             <tbody>
               {orders.map(order=>(
-                <tr key={order._id}>
-                  <td>{order._id}</td>
+                <tr key={order.id}>
+                  <td>{order.id}</td>
                   <td>{order.createdAt.substring(0)}</td>
                   <td>{order.totalPrice}</td>
                   <td>{order.isPaid?order.paidAt.substring(0,10):(
@@ -171,7 +171,7 @@ const ProfileScreen = ({ history }) => {
                     <FaTimes/>
                   }</td>
                   <td>
-                    <LinkContainer to={`/order/${order._id}`}>
+                    <LinkContainer to={`/order/${order.id}`}>
                       <Button variant='light'>Details</Button>
                     </LinkContainer>
                   </td>

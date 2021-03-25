@@ -77,7 +77,7 @@ const ProductEditScreen = ({ match, history }) => {
       category:category
     }
     dispatch(updateProduct(newUser))
-    // dispatch(updateUserWithAdmin({_id:userId,name,email,isAdmin}))
+    // dispatch(updateUserWithAdmin({id:userId,name,email,isAdmin}))
   };
 
   return (

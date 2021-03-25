@@ -122,7 +122,7 @@ const ProductScreen = ({history, match }) => {
               {product.review.length === 0 && <Message>Chưa có đánh giá</Message>}
               <ListGroup variant='flush'>
                 {product.review.map((review) => (
-                  <ListGroup.Item key={review._id}>
+                  <ListGroup.Item key={review.id}>
                     <strong>{review.name}</strong>
                     <Rating value={review.rating} />
                     <p>{review.createdAt.substring(0, 10)}</p>

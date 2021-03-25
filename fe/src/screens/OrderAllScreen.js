@@ -32,7 +32,7 @@ const OrderAllScreen = ({history,match}) => {
           <thead>
             <tr>
             <th>ID</th>
-                <th>Khách hàng</th>
+                {/* <th>Khách hàng</th> */}
                 <th>Ngày</th>
                 <th>Tổng tiền</th>
                 <th>Thanh toán</th>
@@ -42,10 +42,11 @@ const OrderAllScreen = ({history,match}) => {
           </thead>
           <tbody>
             {orders && orders.map(order=>(
-              <tr key={order._id}>
-                <td>{order._id}</td>
-                <td>{order.user.name}</td>
-                <td>{order.createdAt}</td>
+              <tr key={order.id}>
+                <td>{order.id}</td>
+                {/* <td>{order.user.name}</td> */}
+                <td>{order.paidAt}</td>
+                <td>{order.totalPrice}</td>
                 <td>
                   {order.isPaid?<AiFillCheckCircle/>:<AiOutlineCloseCircle/>}
                 </td>
@@ -53,12 +54,12 @@ const OrderAllScreen = ({history,match}) => {
                   {order.isDelivered?<AiFillCheckCircle/>:<AiOutlineCloseCircle/>}
                 </td>
                 <td>
-                  <LinkContainer to={`/order/${order._id}`}>
+                  <LinkContainer to={`/order/${order.id}`}>
                     <Button variant='light' className='btn-sm'>
                         <AiFillEdit/>
                     </Button>
                   </LinkContainer>
-                  {/* <Button variant='danger' className='btn-sm' onClick={()=>handleDelete(order._id)}>
+                  {/* <Button variant='danger' className='btn-sm' onClick={()=>handleDelete(order.id)}>
                         <AiOutlineDelete/>
                     </Button> */}
                 </td>

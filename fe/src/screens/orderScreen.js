@@ -78,9 +78,9 @@ const OrderScreen = ({ match }) => {
         <Col md={9}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
-              <h2>Order {order._id}</h2>
-              <p><strong>Tên:</strong>{order.user.name}</p>
-              <p><strong>Email:</strong><a href={`mailto:${order.user.email}`}>{order.user.email}</a></p>
+              <h2>Order {order.id}</h2>
+              {/* <p><strong>Tên:</strong>{order.user.name}</p>
+              <p><strong>Email:</strong><a href={`mailto:${order.user.email}`}>{order.user.email}</a></p> */}
 
               <p>
                 <strong>Address:</strong>
@@ -147,7 +147,7 @@ const OrderScreen = ({ match }) => {
                   </ListGroup.Item>
                   {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
                    <ListGroup.Item>
-                     {loadingDeliver && <Loader/>}
+                     {/* {loadingDeliver && <Loader/>} */}
                      <Button
                       type='button'
                       className='btn btn-block'
@@ -157,7 +157,7 @@ const OrderScreen = ({ match }) => {
                     </Button>
                    </ListGroup.Item>
                  )}
-                 {!order.isPaid && (
+                 {/* {!order.isPaid && (
                    <ListGroup.Item>
                      {loadingPay && <Loader/>}
                      {!sdkReady?<Loader/>:(
@@ -168,7 +168,7 @@ const OrderScreen = ({ match }) => {
                        />
                      )}
                    </ListGroup.Item>
-                 )}
+                 )} */}
               </ListGroup>
             </Card>
         </Col>

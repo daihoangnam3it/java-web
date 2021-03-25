@@ -27,12 +27,8 @@ export const createOrder = (order) => async (dispatch, getState) => {
     const {
       userLogin: { userInfo },
     } = getState();
-    const config = {
-      headers: {
-        Authorization: userInfo.token,
-      },
-    };
-    const { data } = await axios.post(`/api/orders`, order, config);
+   
+    const { data } = await axios.post(`https://javawebdoan.herokuapp.com/order/create`, order);
     dispatch({
       type: ORDER_CREATE_SUCCESS,
       payload: data,
@@ -57,7 +53,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
         Authorization: userInfo.token,
       },
     };
-    const { data } = await axios.get(`/api/orders/${id}`, config);
+    const { data } = await axios.get(`https://javawebdoan.herokuapp.com/order/${id}`);
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
       payload: data,
@@ -134,7 +130,8 @@ export const getAllListOrder = () => async (dispatch, getState) => {
         Authorization: userInfo.token,
       },
     };
-    const { data } = await axios.get(`/api/orders/list`, config);
+    const { data } = await axios.get(`https://javawebdoan.herokuapp.com/orders`);
+    console.log(data);
     dispatch({
       type: ORDER_LIST_ALL_SUCCESS,
       payload: data,
@@ -159,7 +156,7 @@ export const deliveredOrder = (order) => async (dispatch, getState) => {
         Authorization: userInfo.token,
       },
     };
-    const { data } = await axios.put(`/api/orders/${order._id}/delivered`,{},config);
+    const { data } = await axios.put(`/api/orders/${order.id}/delivered`,{},config);
     dispatch({
       type: ORDER_PAY_SUCCESS,
       payload: data,

@@ -64,13 +64,14 @@ export const deleteProduct = (id) => async (dispatch,getState) => {
 export const createProduct = () => async (dispatch,getState) => {
   try {
     dispatch({ type: PRODUCT_CREATE_REQUEST });
-    const {userLogin:{userInfo}}=getState()
-    const config={
-      headers:{
-        'Authorization':userInfo.token
-      }
-    }
-    const {data}=await axios.post(`/api/products/create`,{},config);
+    // const {userLogin:{userInfo}}=getState()
+    // const config={
+    //   headers:{
+    //     'Authorization':userInfo.token
+    //   }
+    // }
+    const {data}=await axios.post(`https://javawebdoan.herokuapp.com/product/create`,{});
+    console.log(data);
     dispatch({
       type: PRODUCT_CREATE_SUCCESS,
       payload:data

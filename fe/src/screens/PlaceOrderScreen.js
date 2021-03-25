@@ -39,16 +39,16 @@ const PlaceOrderScreen = ({ history }) => {
       history.push('/payment')
     }
       if(success){
-        history.push(`/order/${order._id}`)
+        history.push(`/order/${order.id}`)
       }
     
   }, [ history,success]);
 
   const placeOrderHandler=()=>{
     const shippingAddress={
-      address:user.address,
-      district:user.district,
-      city:user.city,
+      address:user.address || cart.address.address,
+      district:user.district || cart.address.district,
+      city:user.city || cart.address.city
     }
     dispatch(createOrder({
       orderItems:cart.cartItems,
@@ -69,9 +69,9 @@ const PlaceOrderScreen = ({ history }) => {
               <h2>Shipping</h2>
               <p>
                 <strong>Address:</strong>
-                {user.address},
-                {user.district},
-                {user.city}
+                {user.address || cart.address.address},
+                {user.district || cart.address.district},
+                {user.city || cart.address.city}
               </p>
             </ListGroup.Item>
             <ListGroup.Item>

@@ -34,7 +34,7 @@ const UserEditScreen = ({ match, history }) => {
   }, [history,user]);
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateUserWithAdmin({idCurrent:userInfo.id,id:userId,name,email,isAdmin,address:user.address,district:user.district,city:user.city}))
+    dispatch(updateUserWithAdmin({idCurrent:userInfo.id,id:userId,name,email,isAdmin,address:user.address,district:user.district,city:user.city,password:''}))
   };
 
   return (
