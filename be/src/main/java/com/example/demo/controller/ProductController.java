@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,29 +26,84 @@ public class ProductController {
 	
 	@Autowired
 	public ProductRepository productRepository;
+	@Autowired
+	public UserRepository userRepository;
 	
 	@GetMapping(value = "/products")
 	public List<Product> getAllProduct(){
 		return productRepository.findAll();
 	}
+	
+	public boolean checkAdmin(String id) {
+		List<User> users = userRepository.findAll();
+		for(int i=0; i<users.size(); i++)
+			if (users.get(i).getId().equals(id) && users.get(i).getIsAdmin()==true)
+				return true;
+		return false;
+	}
+	
 	@PostMapping(value = "/product/create")
-	public String createProduct(@RequestBody Product product) {
-		Product insertedProduct = productRepository.insert(product);
-		return "OK";
+	public String createProduct(@RequestBody Map<String, Object> payload) {
+		if(checkAdmin(payload.get("idCurrent").toString()) == true) {
+			
+			//String id = payload.get("id").toString();
+			String name = payload.get("name").toString();
+			String image = payload.get("image").toString();
+			String description = payload.get("description").toString();
+			String brand = payload.get("brand").toString();
+			String category = payload.get("category").toString();
+			float price = Float.parseFloat(payload.get("price").toString());
+			int countInStock = Integer.parseInt(payload.get("countInStock").toString());
+			float rating = Float.parseFloat(payload.get("rating").toString());
+			int numReviews = Integer.parseInt(payload.get("numReviews").toString());
+			
+			Product product = new Product(name, image, description, brand, category, price, countInStock, rating, numReviews);
+			Product insertedProduct = productRepository.insert(product);
+			return "OK";
+		}
+		return "FALSE";
 	}
-	@PutMapping(value = "/product/update")
-	public String updateProduct(@RequestBody Product product) {
-		Product updatedProduct = productRepository.save(product);
-		return "OK";
+	
+	@PutMapping(value = "/product/update/{id}")
+	public String updateProduct(@PathVariable("id") String p_id, @RequestBody Map<String, Object> payload) {
+		
+		if(checkAdmin(payload.get("idCurrent").toString()) == true) {
+			
+			String id = payload.get("id").toString();
+			String name = payload.get("name").toString();
+			String image = payload.get("image").toString();
+			String description = payload.get("description").toString();
+			String brand = payload.get("brand").toString();
+			String category = payload.get("category").toString();
+			float price = Float.parseFloat(payload.get("price").toString());
+			int countInStock = Integer.parseInt(payload.get("countInStock").toString());
+			float rating = Float.parseFloat(payload.get("rating").toString());
+			int numReviews = Integer.parseInt(payload.get("numReviews").toString());
+			
+			Product product = new Product(id, name, image, description, brand, category, price, countInStock, rating, numReviews);
+			List<Product> products = productRepository.findAll();
+			for(int i=0; i<products.size(); i++)
+				if (products.get(i).getId().equals(p_id)) {
+					products.set(i, product);
+					break;
+				}
+			productRepository.saveAll(products);
+			return "OK";
+		}
+		return "FALSE";
 	}
+	
 	@GetMapping(value = "/product/{id}")
 	public Optional<Product> detail_product(@PathVariable("id") String id) {
 		return productRepository.findById(id);
 	}
 	
 	@DeleteMapping(value = "/product/delete/{id}")
-	public void deleteProduct(@PathVariable("id") String id) {
-		productRepository.deleteById(id);
-		
+	public String deleteProduct(@PathVariable("id") String id, @RequestBody Map<String, Object> payload) {
+			if(checkAdmin(payload.get("idCurrent").toString()) == true) {
+			productRepository.deleteById(id);
+			return "OK";
+		}
+		return "FALSE";
 	}
 }

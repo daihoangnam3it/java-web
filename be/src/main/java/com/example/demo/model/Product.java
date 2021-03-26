@@ -34,6 +34,21 @@ public class Product {
 		this.rating = rating;
 		this.numReviews = numReviews;
 	}
+	
+	public Product(String id, String name, String image, String description, String brand, String category, float price,
+			int countInStock, float rating, int numReviews) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.image = image;
+		this.description = description;
+		this.brand = brand;
+		this.category = category;
+		this.price = price;
+		this.countInStock = countInStock;
+		this.rating = rating;
+		this.numReviews = numReviews;
+	}
 
 	public String getId() {
 		return id;
