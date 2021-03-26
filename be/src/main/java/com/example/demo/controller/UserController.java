@@ -48,21 +48,21 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/user/login")
-	MappingJacksonValue login(@RequestParam(required=false, value = "email") String email, @RequestParam(required=false, value = "password") String password) { 
+	MappingJacksonValue login(@RequestBody User user) { 
 		
 		SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept("password", "address", "district", "city");
 		FilterProvider filterProvider = new SimpleFilterProvider().addFilter("userFilter", simpleBeanPropertyFilter);
 		List<User> users = userRepository.findAll();
-		User user = new User();
-		for(int i=0; i<users.size(); i++)
-			if (users.get(i).getEmail().equals(email) && users.get(i).getPassword().equals(password)) {
-				user = users.get(i);
-				break;
-			}
-		MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(users);
-		mappingJacksonValue.setFilters(filterProvider);
+		System.out.print(user.getPassword());
 		
-		return mappingJacksonValue;
+		for(int i=0; i<users.size(); i++)
+			if (users.get(i).getEmail().equals(user.getEmail()) && users.get(i).getPassword().equals(user.getPassword())) {
+				MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(users.get(i));
+				mappingJacksonValue.setFilters(filterProvider);
+				
+				return mappingJacksonValue;
+			}
+		return null;
 	}
 	
 	@PostMapping(value = "/user/register")
@@ -75,7 +75,6 @@ public class UserController {
 	public String updateUser(@PathVariable("id") String id, @RequestBody Map<String, Object> payload) {
 		
 		List<User> users = userRepository.findAll();
-		
 		//check isAdmin
 		boolean isAd = false;
 		for(int i=0; i<users.size(); i++)
@@ -84,24 +83,27 @@ public class UserController {
 					isAd = true;
 				break;
 			}
-		
-		//Update user
+
 		User user;
 		if (isAd == true) {
 			for(int i=0; i<users.size(); i++)
 				if (users.get(i).getId().equals(id)) {
+					users.get(i).setEmail(payload.get("email").toString());
+					users.get(i).setName(payload.get("name").toString()); 
 					users.get(i).setIsAdmin(Boolean.parseBoolean(payload.get("isAdmin").toString())); 
 					break;
 				}
 		}else {
 			for(int i=0; i<users.size(); i++)
 				if (users.get(i).getId().equals(id)) {
+					
 					users.get(i).setName(payload.get("name").toString());
-					users.get(i).setName(payload.get("email").toString());
-					users.get(i).setName(payload.get("address").toString());
-					users.get(i).setName(payload.get("district").toString());
-					users.get(i).setName(payload.get("city").toString());
-					users.get(i).setName(payload.get("password").toString());
+					users.get(i).setEmail(payload.get("email").toString());
+					users.get(i).setAddress(payload.get("address").toString());
+					users.get(i).setDistrict(payload.get("district").toString());
+					users.get(i).setCity(payload.get("city").toString());
+					users.get(i).setPassword(payload.get("password").toString());
+					System.out.print(users.get(i).getAddress());
 					break;
 				}
 		}
@@ -115,4 +117,19 @@ public class UserController {
 		userRepository.deleteById(id);
 	}
 	
+	@GetMapping(value = "/profile/{id}")
+	MappingJacksonValue getProfile(@PathVariable("id") String id) {
+		System.out.print(id);
+		SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept("password");
+		FilterProvider filterProvider = new SimpleFilterProvider().addFilter("userFilter", simpleBeanPropertyFilter);
+		List<User> users = userRepository.findAll();
+		
+		for(int i=0; i<users.size(); i++)
+			if(users.get(i).getId().equals(id)) {
+				MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(users.get(i));
+				mappingJacksonValue.setFilters(filterProvider);
+				return mappingJacksonValue;
+			}
+		return null;
+	}
 }

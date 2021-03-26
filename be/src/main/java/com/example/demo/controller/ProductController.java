@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Product;
@@ -65,26 +66,19 @@ public class ProductController {
 	}
 	
 	@PutMapping(value = "/product/update/{id}")
-	public String updateProduct(@PathVariable("id") String p_id, @RequestBody Map<String, Object> payload) {
-		
+	public String updateProduct(@PathVariable("id") String id, @RequestBody Map<String, Object> payload) {
 		if(checkAdmin(payload.get("idCurrent").toString()) == true) {
 			
-			String id = payload.get("id").toString();
-			String name = payload.get("name").toString();
-			String image = payload.get("image").toString();
-			String description = payload.get("description").toString();
-			String brand = payload.get("brand").toString();
-			String category = payload.get("category").toString();
-			float price = Float.parseFloat(payload.get("price").toString());
-			int countInStock = Integer.parseInt(payload.get("countInStock").toString());
-			float rating = Float.parseFloat(payload.get("rating").toString());
-			int numReviews = Integer.parseInt(payload.get("numReviews").toString());
-			
-			Product product = new Product(id, name, image, description, brand, category, price, countInStock, rating, numReviews);
 			List<Product> products = productRepository.findAll();
 			for(int i=0; i<products.size(); i++)
-				if (products.get(i).getId().equals(p_id)) {
-					products.set(i, product);
+				if (products.get(i).getId().equals(id)) {
+					products.get(i).setName(payload.get("name").toString());
+					products.get(i).setImage(payload.get("image").toString());
+					products.get(i).setDescription(payload.get("description").toString());
+					products.get(i).setBrand(payload.get("brand").toString());
+					products.get(i).setCategory(payload.get("category").toString());
+					products.get(i).setPrice(Float.parseFloat(payload.get("price").toString()));
+					products.get(i).setCountInStock(Integer.parseInt(payload.get("countInStock").toString()));
 					break;
 				}
 			productRepository.saveAll(products);
@@ -99,11 +93,7 @@ public class ProductController {
 	}
 	
 	@DeleteMapping(value = "/product/delete/{id}")
-	public String deleteProduct(@PathVariable("id") String id, @RequestBody Map<String, Object> payload) {
-			if(checkAdmin(payload.get("idCurrent").toString()) == true) {
-			productRepository.deleteById(id);
-			return "OK";
-		}
-		return "FALSE";
+	public void deleteProduct(@PathVariable("id") String id) {
+		productRepository.deleteById(id);
 	}
 }

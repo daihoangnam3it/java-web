@@ -6,8 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 //@Document(collection = "PaymentResuls")
 public class PaymentResult {
 	
-	//@Id
-	private String id="";
 	private String status="";
 	private String update_time="";
 	private String email_address="";
@@ -20,9 +18,6 @@ public class PaymentResult {
 		this.status = status;
 		this.update_time = update_time;
 		this.email_address = email_address;
-	}
-	public String getId() {
-		return id;
 	}
 	public String getStatus() {
 		return status;

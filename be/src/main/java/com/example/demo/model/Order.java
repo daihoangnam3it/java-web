@@ -16,20 +16,21 @@ public class Order {
 	private OrderItems[] orderItems;
 	private ShippingAddress shippingAddress;
 	private String paymentMethod;
-	private PaymentResult paymentResult;
+	private PaymentResult paymentResult=new PaymentResult("", "", "");
 	private float shippingPrice;
 	private float totalPrice;
 	private boolean isPaid;
 	private Date paidAt= new Date();
 	private boolean isDelivered;
 	private Date deliveredAt= new Date();
+	private String userId;
 	public Order() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public Order(OrderItems[] orderItems, ShippingAddress shippingAddress, String paymentMethod,
 			PaymentResult paymentResult, float shippingPrice, float totalPrice, boolean isPaid, Date paidAt,
-			boolean isDelivered, Date deliveredAt) {
+			boolean isDelivered, Date deliveredAt, String userId) {
 		super();
 		this.orderItems = orderItems;
 		this.shippingAddress = shippingAddress;
@@ -41,6 +42,7 @@ public class Order {
 		this.paidAt = paidAt;
 		this.isDelivered = isDelivered;
 		this.deliveredAt = deliveredAt;
+		this.userId = userId;
 	}
 	public String getId() {
 		return id;
@@ -105,4 +107,11 @@ public class Order {
 	public void setDeliveredAt(Date deliveredAt) {
 		this.deliveredAt = deliveredAt;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 }

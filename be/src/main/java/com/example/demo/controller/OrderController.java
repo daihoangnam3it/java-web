@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,7 @@ public class OrderController {
 	@PostMapping(value = "/order/create")
 	public String createOrder(@RequestBody Order order) {
 		Order insertedOrder = orderRepository.insert(order);
+		System.out.print(insertedOrder.getUserId());
 		return "OK";
 	}
 	@PutMapping(value = "/order/update")
@@ -50,5 +52,16 @@ public class OrderController {
 	public void deleteOrder(@PathVariable("id") String id) {
 		orderRepository.deleteById(id);
 		
+	}
+	
+	@GetMapping(value = "/order/of/{userId}")
+	public List<Order> getMyOrders(@PathVariable("userId") String userId) {
+		List<Order> orders = orderRepository.findAll();
+		List<Order> myOrders = new ArrayList<Order>();
+		for(int i=0; i<orders.size(); i++)
+			if(orders.get(i).getUserId().equals(userId)) {
+				myOrders.add(orders.get(i));
+			}
+		return myOrders;
 	}
 }
