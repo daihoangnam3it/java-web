@@ -44,12 +44,12 @@ export const deleteProduct = (id) => async (dispatch,getState) => {
   try {
     dispatch({ type: PRODUCT_DELETE_REQUEST });
     const {userLogin:{userInfo}}=getState()
-    const config={
-      headers:{
-        'Authorization':userInfo.token
-      }
-    }
-    await axios.delete(`https://javawebdoan.herokuapp.com/product/delete/${id}`);
+    // const config={
+    //   headers:{
+    //     'Authorization':userInfo.token
+    //   }
+    // }
+    await axios.delete(`http://localhost:6039/product/delete/${id}`);
     dispatch({
       type: PRODUCT_DELETE_SUCCESS,
     });
@@ -89,12 +89,12 @@ export const updateProduct = (user) => async (dispatch,getState) => {
   try {
     dispatch({ type: PRODUCT_UPDATE_REQUEST });
     const {userLogin:{userInfo}}=getState()
-    const config={
-      headers:{
-        'Authorization':userInfo.token
-      }
-    }
-    const {data}=await axios.put(`/api/products/${user.id}/edit`,user,config);
+    // const config={
+    //   headers:{
+    //     'Authorization':userInfo.token
+    //   }
+    // }
+    const {data}=await axios.put(`https://javawebdoan.herokuapp.com/product/update/${user.id}`,user/*,config*/).then(() => console.log()) ;
     dispatch({
       type: PRODUCT_UPDATE_SUCCESS,
     });

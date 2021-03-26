@@ -145,7 +145,7 @@ const ProfileScreen = ({ history }) => {
       </Col>
       <Col md={9}>
         <h1>Danh sách đơn hàng</h1>
-        {/* {loadingOrder?<Loader/>:errorOrder?<Message variant="danger">{errorOrder}</Message>:(
+        {loadingOrder?<Loader/>:errorOrder?<Message variant="danger">{errorOrder}</Message>:(
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
@@ -161,7 +161,8 @@ const ProfileScreen = ({ history }) => {
               {orders.map(order=>(
                 <tr key={order.id}>
                   <td>{order.id}</td>
-                  <td>{order.createdAt.substring(0)}</td>
+                  {/* <td>{order.createdAt.substring(0)}</td> */}
+                  <td>{order.paidAt.substring(0,10)}</td>
                   <td>{order.totalPrice}</td>
                   <td>{order.isPaid?order.paidAt.substring(0,10):(
                     <FaTimes/>
@@ -179,7 +180,7 @@ const ProfileScreen = ({ history }) => {
               ))}
             </tbody>
           </Table>
-        )} */}
+        )}
       </Col>
     </Row>
   );

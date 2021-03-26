@@ -51,6 +51,7 @@ const PlaceOrderScreen = ({ history }) => {
       city:user.city || cart.address.city
     }
     dispatch(createOrder({
+      userId:userInfo.id,
       orderItems:cart.cartItems,
       shippingPrice:cart.shippingPrice,
       paymentMethod:cart.payment,

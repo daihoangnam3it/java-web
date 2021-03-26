@@ -134,12 +134,13 @@ export const updateProfile=(info)=>async (dispatch,getState)=>{
   try {
     dispatch({type:USER_UPDATE_PROFILE_REQUEST});
     const {userLogin:{userInfo}}=getState()
-    const config={
-      headers:{
-        'Authorization':userInfo.token
-      }
-    }
-    const {data}= await axios.put( `/api/users/profile`,info,config)
+    // const config={
+    //   headers:{
+    //     'Authorization':userInfo.token
+    //   }
+    // }
+    
+    const {data}= await axios.put( `https://javawebdoan.herokuapp.com/user/update/${userInfo.id}`,info/*,config*/)
     dispatch({type:USER_UPDATE_PROFILE_SUCCESS})
   } catch (error) {
     dispatch({type:USER_UPDATE_PROFILE_FAIL,payload:error.response && error.response.data.msg})
@@ -229,12 +230,12 @@ export const updateUserWithAdmin=(user)=>async (dispatch,getState)=>{
     dispatch({type:USER_UPDATE_REQUEST});
     const {userLogin:{userInfo}}=getState()
     console.log(user);
-    const {data}= await axios.put( `/user/update/${user.id}`,user)
-    // dispatch({type:USER_UPDATE_SUCCESS,payload:data})
-    // dispatch({
-    //   type:USER_DETAILS_SUCCESS,
-    //   payload:data
-    // })
+    const {data}= await axios.put( `http://localhost:6039/user/update/${user.id}`,user)
+    dispatch({type:USER_UPDATE_SUCCESS,payload:data})
+    dispatch({
+      type:USER_DETAILS_SUCCESS,
+      payload:data
+    })
   } catch (error) {
     dispatch({type:USER_LIST_FAIL,payload:error.response && error.response.data.msg})
   }

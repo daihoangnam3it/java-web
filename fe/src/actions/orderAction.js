@@ -27,7 +27,6 @@ export const createOrder = (order) => async (dispatch, getState) => {
     const {
       userLogin: { userInfo },
     } = getState();
-   
     const { data } = await axios.post(`https://javawebdoan.herokuapp.com/order/create`, order);
     dispatch({
       type: ORDER_CREATE_SUCCESS,
@@ -99,12 +98,13 @@ export const getListOrder = () => async (dispatch, getState) => {
     const {
       userLogin: { userInfo },
     } = getState();
-    const config = {
-      headers: {
-        Authorization: userInfo.token,
-      },
-    };
-    const { data } = await axios.get(`/api/orders/my-order`, config);
+    // const config = {
+    //   headers: {
+    //     Authorization: userInfo.token,
+    //   },
+    //};
+    //document.write(userInfo.id);
+    const { data } = await axios.get(`http://localhost:6039/order/of/${userInfo.id}`/*, config*/)
     dispatch({
       type: ORDER_LIST_SUCCESS,
       payload: data,

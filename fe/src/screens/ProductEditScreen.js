@@ -12,6 +12,8 @@ import { updateProduct } from '../actions/productAction';
 import { PRODUCT_UPDATE_RESET} from '../constants/productConstant';
 const ProductEditScreen = ({ match, history }) => {
   const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   const [price, setPrice] = useState(0);
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
@@ -66,6 +68,7 @@ const ProductEditScreen = ({ match, history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     const newUser={
+      idCurrent:userInfo.id,
       id:match.params.id,
       name:name,
       price:price,

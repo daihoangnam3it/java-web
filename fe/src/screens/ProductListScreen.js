@@ -22,6 +22,7 @@ const ProductListScreen = ({history,match}) => {
   const productCreate = useSelector((state) => state.createProduct);
   const { loading:loadingCreate,success:successCreate,error:errorCreate,product:createdProduct } = productCreate;
   const handleDelete=async(id)=>{
+    //document.write(userInfo.id);
     dispatch(deleteProduct(id))
     // console.log('delete');
   }
